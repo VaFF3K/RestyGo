@@ -1,0 +1,65 @@
+/* src/styles/HomePage.css */
+
+.home-container {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.home-header {
+    background-color: #BF772F;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.nav-tabs button {
+    background: transparent;
+    color: white;
+    border: 1px solid white;
+    margin: 0 8px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.nav-tabs button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.auth-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.home-content {
+    flex: 1;
+    padding: 30px;
+    background-color: #FFF3E3;
+}
+
+.placeholder {
+    text-align: center;
+    margin-top: 80px;
+    color: #492B2B;
+}
+
+.placeholder h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.placeholder p {
+    font-size: 1.1rem;
+}
