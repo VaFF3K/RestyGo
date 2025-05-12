@@ -6,6 +6,7 @@ import java.util.List;
 public class CookOrderDTO {
     private Long id;
     private String customerName;
+    private String cookName;
     private String comment;
     private LocalDateTime createdAt;
     private double totalPrice;
@@ -66,6 +67,14 @@ public class CookOrderDTO {
 
     public void setItems(List<OrderItemDTO> items) {
         this.items = items;
+    }
+
+    public String getCookName() {
+        return cookName;
+    }
+
+    public void setCookName(String cookName) {
+        this.cookName = cookName;
     }
 }
 

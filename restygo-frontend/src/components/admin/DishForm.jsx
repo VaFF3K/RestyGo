@@ -58,16 +58,21 @@ function DishForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="admin-form">
             <h3>Додати до меню</h3>
-            <input placeholder="Назва" value={name} onChange={e => setName(e.target.value)} required />
-            <input placeholder="Категорія" value={category} onChange={e => setCategory(e.target.value)} required />
-            <input type="number" placeholder="Ціна" value={price} onChange={e => setPrice(e.target.value)} required />
-            <textarea placeholder="Опис" value={description} onChange={e => setDescription(e.target.value)} required />
-            <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])}/>
-            <br />
+            <label>Назва<input type="text" placeholder="Назва" value={name} onChange={e => setName(e.target.value)} required />
+            </label>
+            <label>Категорія<input type="text" placeholder="Категорія" value={category} onChange={e => setCategory(e.target.value)} required />
+            </label>
+            <label>Ціна<input type="number" placeholder="Ціна" value={price} onChange={e => setPrice(e.target.value)} required />
+            </label>
+            <label>Опис<textarea placeholder="Опис" value={description} onChange={e => setDescription(e.target.value)} required />
+            </label>
+            <label>Фото<input type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
+            </label>
             <button type="submit">Зберегти</button>
         </form>
+
     );
 }
 

@@ -141,6 +141,7 @@ function MenuList() {
                             />
                         )}
                         <h4>{dish.name}</h4>
+                        <p>Категорія: {dish.category}</p>
                         <p>{dish.description}</p>
                         <p><strong>{dish.price} грн</strong></p>
                         <button

@@ -1,0 +1,140 @@
+:root {
+    --dark-blue: #17263D;
+    --muted-blue: #637194;
+    --accent-blue: #7D9AE4;
+    --light-gray: #D9D9D9;
+}
+
+/* Navbar */
+.cook-navbar {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--dark-blue);
+    padding: 16px 24px;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.cook-navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+/* Стилі для тексту з іменем кухаря */
+.cook-auth-info {
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--light-gray);
+}
+
+/* Стилі для блоку фільтрів сортування */
+.sort-options {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.sort-options select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--muted-blue);
+    background-color: white;
+    color: var(--dark-blue);
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    transition: border-color 0.2s;
+}
+
+.sort-options select:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
+
+.cook-navbar button {
+    background-color: var(--accent-blue);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.cook-navbar button:hover {
+    background-color: var(--light-gray);
+    color: var(--dark-blue);
+}
+
+/* Контейнер */
+.cook-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 24px;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #D9D9D9;
+    border-radius: 15px;
+}
+
+/* Tabs */
+.cook-filter-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.cook-filter-tabs button {
+    background-color: var(--muted-blue);
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cook-filter-tabs button.active {
+    background-color: var(--accent-blue);
+}
+
+.cook-orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Картки */
+.cook-order-card {
+    background-color: white;
+    border: 2px solid var(--light-gray);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.cook-order-card ul {
+    padding-left: 20px;
+}
+
+.cook-btn {
+    background-color: var(--accent-blue);
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.cook-btn:hover {
+    background-color: var(--light-gray);
+    color: var(--dark-blue);
+}

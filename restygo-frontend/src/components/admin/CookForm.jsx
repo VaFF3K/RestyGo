@@ -28,11 +28,11 @@ function CookForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="admin-form">
             <h3>Додати нового кухаря</h3>
-            <input placeholder="ПІБ" value={fullName} onChange={e => setFullName(e.target.value)} required />
-            <input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
-            <input type="password" placeholder="Пароль" value={password} onChange={e => setPassword(e.target.value)} required />
+            <label>ПІБ<input type="text" placeholder="ПІБ" value={fullName} onChange={e => setFullName(e.target.value)} required /></label>
+            <label>Email<input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required /></label>
+            <label>Пароль<input type="password" placeholder="Пароль" value={password} onChange={e => setPassword(e.target.value)} required /></label>
             <button type="submit">Зареєструвати</button>
         </form>
     );

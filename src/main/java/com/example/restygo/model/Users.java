@@ -1,5 +1,6 @@
 package com.example.restygo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -22,10 +23,13 @@ public class Users {
     @Column(nullable = false)
     private Role role;
 
+
     @OneToMany(mappedBy = "user")
+    @JsonIgnore  //experimental
     private List<Order> orders;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Review> reviews;
 
     public Users() {

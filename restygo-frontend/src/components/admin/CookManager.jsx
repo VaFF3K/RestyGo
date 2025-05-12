@@ -29,14 +29,14 @@ function CookManager() {
     };
 
     return (
-        <div>
-            <h3>Список кухарів</h3>
+        <div className="admin-container">
+            <h2>Список кухарів</h2>
 
             <button onClick={() => navigate('/admin/add-cook')} style={{ marginBottom: '10px' }}>
                 ➕ Додати кухаря
             </button>
 
-            <table border="1" cellPadding="8">
+            <table className="admin-table">
                 <thead>
                 <tr>
                     <th>Імʼя</th>

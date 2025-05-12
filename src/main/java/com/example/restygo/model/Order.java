@@ -26,6 +26,9 @@ public class Order {
 
     @ManyToOne
     private Users user;
+    @ManyToOne
+    @JoinColumn(name = "cook_id")
+    private Users cook;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -103,5 +106,13 @@ public class Order {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Users getCook() {
+        return cook;
+    }
+
+    public void setCook(Users cook) {
+        this.cook = cook;
     }
 }

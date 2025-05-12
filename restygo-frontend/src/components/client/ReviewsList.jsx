@@ -141,8 +141,8 @@ function ReviewsList() {
                     {filteredReviews.map((r, idx) => (
                         <div key={idx} className="review-card">
                             <p><strong>Товар:</strong> {r.dishName}</p>
-                            <p><strong>Користувач:</strong> {r.userName}</p>
-                            <p><strong>Оцінка:</strong> {'⭐'.repeat(r.rating)} ({r.rating}/5)</p>
+                            <p><strong>Оцінка:</strong> {'⭐'.repeat(r.rating)}</p>
+                            <p><strong>Автор:</strong> {r.userName}</p>
                             <p><strong>Коментар:</strong> {r.comment}</p>
                             <p className="review-date">{new Date(r.createdAt).toLocaleString()}</p>
                         </div>

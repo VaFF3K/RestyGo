@@ -14,9 +14,11 @@ public class OrderStatusStrategyFactory {
 
     @Autowired
     public OrderStatusStrategyFactory(NewToInProgressStrategy newToInProgress,
-                                      InProgressToReadyStrategy inProgressToReady) {
+                                      InProgressToReadyStrategy inProgressToReady,
+                                      NewToCancelledStrategy newToCancelled) {
         strategies.put("NEW->IN_PROGRESS", newToInProgress);
         strategies.put("IN_PROGRESS->READY", inProgressToReady);
+        strategies.put("NEW->CANCELLED", newToCancelled);
     }
 
     public OrderStatusStrategy getStrategy(OrderStatus current, OrderStatus target) {

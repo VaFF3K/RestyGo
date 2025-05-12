@@ -28,6 +28,16 @@ public class ReviewController {
         Review saved = reviewFacade.addReview(reviewDTO, email);
         return ResponseEntity.ok(saved);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteReview(@PathVariable Long id) {
+        try {
+            reviewFacade.deleteReview(id);
+            return ResponseEntity.ok("Відгук видалено");
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body("Відгук не знайдено");
+        }
+    }
+
 
     @GetMapping
     public List<ReviewResponseDTO> getAllReviews() {

@@ -3,6 +3,7 @@ package com.example.restygo.dto;
 import java.time.LocalDateTime;
 
 public class ReviewResponseDTO {
+    private long id;
     private int rating;
     private String comment;
     private LocalDateTime createdAt;
@@ -18,6 +19,14 @@ public class ReviewResponseDTO {
         this.comment = comment;
         this.createdAt = createdAt;
         this.userName = userName;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public int getRating() {

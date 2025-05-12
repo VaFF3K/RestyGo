@@ -45,13 +45,13 @@ function DishManager() {
     };
 
     return (
-        <div>
+        <div className="admin-container">
             <h2>Усі позиції меню</h2>
             <button onClick={() => navigate('/admin/add-dish')}>
                 ➕ Додати до меню
             </button>
 
-            <table border="1" cellPadding="8" style={{ marginTop: '20px', borderCollapse: 'collapse' }}>
+            <table className="admin-table">
                 <thead>
                 <tr>
                     <th>Назва</th>
@@ -77,7 +77,7 @@ function DishManager() {
                                     width="100"
                                 />
                             ) : (
-                                <span>Немає</span>
+                                <span>Відсутнє</span>
                             )}
                         </td>
                         <td>

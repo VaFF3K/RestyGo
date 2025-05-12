@@ -38,10 +38,18 @@ public class ReviewFacade {
 
         return reviewRepository.save(review);
     }
+    public void deleteReview(Long id) {
+        if (!reviewRepository.existsById(id)) {
+            throw new RuntimeException("Відгук не знайдено");
+        }
+        reviewRepository.deleteById(id);
+    }
+
 
     public List<ReviewResponseDTO> getAllReviews() {
         return reviewRepository.findAll().stream().map(review -> {
             ReviewResponseDTO dto = new ReviewResponseDTO();
+            dto.setId(review.getId());
             dto.setRating(review.getRating());
             dto.setComment(review.getComment());
             dto.setDishName(review.getDish().getName());

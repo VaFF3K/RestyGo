@@ -1,7 +1,7 @@
-// src/pages/DishPage.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {useOrder} from "../components/client/OrderContext";
+import { useOrder } from '../components/client/OrderContext';
+import '../styles/DishPage.css';
 
 function DishPage() {
     const { id } = useParams();
@@ -34,88 +34,78 @@ function DishPage() {
             alert("Відгук додано!");
             setComment('');
             setRating(5);
-            fetch(`http://localhost:8080/api/reviews/dish/${id}`)
-                .then(res => res.json())
-                .then(setReviews);
+            const refreshed = await fetch(`http://localhost:8080/api/reviews/dish/${id}`);
+            const data = await refreshed.json();
+            setReviews(data);
         } else {
             alert("Помилка при додаванні відгуку");
         }
     };
 
-    const isInOrder = (dishId) => {
-        return items.some(item => item.dish.id === dishId);
+    const isInOrder = (dishId) => items.some(item => item.dish.id === dishId);
+
+    const handleToggle = () => {
+        isInOrder(dish.id) ? removeItem(dish.id) : addItem(dish);
     };
 
-    const handleToggle = (dish) => {
-        if (isInOrder(dish.id)) {
-            removeItem(dish.id); // ➖ якщо вже в замовленні — видаляємо
-        } else {
-            addItem(dish); // ➕ інакше — додаємо
-        }
-    };
-
-    if (!dish) return <p>Завантаження...</p>;
+    if (!dish) return <p className="loading">Завантаження...</p>;
 
     return (
-        <div style={{ padding: '20px' }}>
-            <h2>{dish.name}</h2>
-            {dish.imageName && (
-                <img
-                    src={`http://localhost:8080/api/dishes/assets/${dish.imageName}`}
-                    alt={dish.name}
-                    width="300"
-                    style={{ borderRadius: '10px' }}
-                />
-            )}
-            <p>{dish.description}</p>
-            <p><strong>Ціна:</strong> {dish.price} грн</p>
-            <button
-                onClick={(e) => {
-                    e.stopPropagation();
-                    handleToggle(dish); // ✅ Перемикаємо стан
-                }}
-            >
-                {isInOrder(dish.id) ? '❌ Вилучити вибір' : '🛒 Замовити'}
-            </button>
+        <div className="dish-page">
+            <div className="dish-header">
+                <h2>{dish.name}</h2>
+                {dish.imageName && (
+                    <img
+                        src={`http://localhost:8080/api/dishes/assets/${dish.imageName}`}
+                        alt={dish.name}
+                        className="dish-image"
+                    />
+                )}
+                <p className="dish-description">{dish.description}</p>
+                <p className="dish-price"><strong>Ціна:</strong> {dish.price} грн</p>
+                <button className="dish-action-button" onClick={handleToggle}>
+                    {isInOrder(dish.id) ? '❌ Вилучити вибір' : '🛒 Замовити'}
+                </button>
+            </div>
+
             <hr />
 
-            <h3>Залишити відгук</h3>
-            <form onSubmit={handleReviewSubmit}>
-                <div>
-                    <label>Оцінка:</label>
-                    <select value={rating} onChange={e => setRating(parseInt(e.target.value))}>
-                        {[5,4,3,2,1].map(num => (
-                            <option key={num} value={num}>{num}</option>
-                        ))}
-                    </select>
-                </div>
-                <div>
+            <div className="review-section">
+                <h3>Залишити відгук</h3>
+                <form onSubmit={handleReviewSubmit} className="review-form">
+                    <label>
+                        Оцінка:
+                        <select value={rating} onChange={e => setRating(parseInt(e.target.value))}>
+                            {[5, 4, 3, 2, 1].map(num => (
+                                <option key={num} value={num}>{num}</option>
+                            ))}
+                        </select>
+                    </label>
                     <textarea
                         placeholder="Ваш коментар"
                         value={comment}
                         onChange={e => setComment(e.target.value)}
                         required
                     />
-                </div>
-                <button type="submit">Відправити</button>
-            </form>
-            <h3>Відгуки</h3>
-            {reviews.length === 0 ? (
-                <p>Ще немає відгуків</p>
-            ) : (
-                <ul>
-                    {reviews.map((rev, idx) => (
-                        <li key={idx}>
-                            <strong>Оцінка:</strong> {rev.rating}/5<br/>
-                            <strong>Коментар:</strong> {rev.comment}<br/>
-                            <strong>Автор:</strong> {rev.userName}<br/>
-                            <strong>Дата:</strong> {new Date(rev.createdAt).toLocaleString()}
-                        </li>
-                    ))}
-                </ul>
+                    <button type="submit">Відправити</button>
+                </form>
 
-            )}
-
+                <h3>Відгуки</h3>
+                {reviews.length === 0 ? (
+                    <p className="no-reviews">Ще немає відгуків</p>
+                ) : (
+                    <ul className="review-list">
+                        {reviews.map((rev, idx) => (
+                            <li key={idx} className="review-item">
+                                <p><strong>Оцінка:</strong> {'⭐'.repeat(rev.rating)}</p>
+                                <p><strong>Коментар:</strong> {rev.comment}</p>
+                                <p><strong>Автор:</strong> {rev.userName}</p>
+                                <p className="review-date">{new Date(rev.createdAt).toLocaleString()}</p>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
         </div>
     );
 }
