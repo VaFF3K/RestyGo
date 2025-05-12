@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CookForm from "./CookForm";
-import CookManager from "./CookManager";
 
 function DishManager() {
     const [dishes, setDishes] = useState([]);
