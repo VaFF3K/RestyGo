@@ -16,6 +16,12 @@
     gap: 12px;
     flex-wrap: wrap;
 }
+.cook-navbar h3 {
+    font-size: 1.5em;
+    margin: 10px;
+    padding-left: 250px;
+
+}
 
 .cook-navbar-right {
     display: flex;
@@ -37,7 +43,8 @@
     align-items: center;
     gap: 12px;
     margin-bottom: 20px;
-    font-weight: 500;
+    font-weight: bold;
+    font-size: 1.1em;
 }
 
 .sort-options select {
@@ -48,6 +55,7 @@
     color: var(--dark-blue);
     font-weight: bold;
     cursor: pointer;
+    font-size: 0.85em;
     font-family: 'Segoe UI', sans-serif;
     transition: border-color 0.2s;
 }
@@ -64,13 +72,15 @@
     padding: 10px 16px;
     border-radius: 6px;
     font-weight: bold;
+    font-size: 1em;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, transform 0.2s ease-in-out;
 }
 
 .cook-navbar button:hover {
     background-color: var(--light-gray);
     color: var(--dark-blue);
+    transform: scale(1.05);
 }
 
 /* Контейнер */
@@ -97,7 +107,12 @@
     padding: 10px 14px;
     border-radius: 6px;
     font-weight: bold;
+    font-size: 1em;
     cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+.cook-filter-tabs button:hover {
+    transform: scale(1.05);
 }
 
 .cook-filter-tabs button.active {
@@ -116,7 +131,9 @@
     border: 2px solid var(--light-gray);
     padding: 20px;
     border-radius: 10px;
+    font-size: 17px;
     box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    font-family: 'Montserrat', sans-serif;
 }
 
 .cook-order-card ul {
@@ -129,12 +146,14 @@
     border: none;
     padding: 10px 14px;
     border-radius: 6px;
+    font-size: 1.1em;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, transform 0.2s ease-in-out;
 }
 
 .cook-btn:hover {
     background-color: var(--light-gray);
     color: var(--dark-blue);
+    transform: scale(1.05);
 }

@@ -23,6 +23,11 @@ public class Users {
     @Column(nullable = false)
     private Role role;
 
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private boolean available = true;
+
+
+
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore  //experimental
@@ -97,5 +102,13 @@ public class Users {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+
+    public boolean isAvailable() {
+        return available;
+    }
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 }

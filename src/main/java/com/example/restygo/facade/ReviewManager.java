@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ReviewFacade {
+public class ReviewManager {
 
     @Autowired
     private ReviewRepository reviewRepository;

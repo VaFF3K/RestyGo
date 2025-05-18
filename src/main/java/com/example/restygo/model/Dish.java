@@ -16,13 +16,20 @@ public class Dish {
     private Double price;
 
     private String category;
-    private String imageName; // або imageUrl
+    private String imageName;
 
 
 
     @OneToMany(mappedBy = "dish", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Review> reviews;
+
+    @Column(name = "is_archived", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean archived = false;
+
+    public boolean isArchived() {
+        return archived;
+    }
 
     public Long getId() {
         return id;
@@ -80,6 +87,8 @@ public class Dish {
         this.reviews = reviews;
     }
 
-
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
 
 }

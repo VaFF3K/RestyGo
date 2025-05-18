@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../../styles/AdminPanel.css';
+// import '../../styles/AdminPanel.css';
 
 function ReviewManager() {
     const [reviews, setReviews] = useState([]);

@@ -1,15 +1,17 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-function ProtectedRoute({ allowedRoles }) {
+function PublicOnlyRoute() {
     const [role, setRole] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('http://localhost:8080/api/user/me', { credentials: 'include' })
-            .then(res => res.json())
+        fetch('http://localhost:8080/api/user/me', {
+            credentials: 'include'
+        })
+            .then(res => res.ok ? res.json() : null)
             .then(data => {
-                setRole(data.role);
+                setRole(data?.role || null);
                 setLoading(false);
             })
             .catch(() => {
@@ -19,9 +21,12 @@ function ProtectedRoute({ allowedRoles }) {
     }, []);
 
     if (loading) return <div>Завантаження...</div>;
-    if (!allowedRoles.includes(role)) return <Navigate to="/" replace />;
 
+    // Кухар та Адмін не будуть мати доступ до публічної сторінки сайту
+    if (role === 'ADMIN' || role === 'COOK') {
+        return <Navigate to={`/${role.toLowerCase()}`} replace />;
+    }
     return <Outlet />;
 }
 
-export default ProtectedRoute;
+export default PublicOnlyRoute;

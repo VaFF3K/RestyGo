@@ -17,8 +17,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+//        Users user = usersRepository.findByEmail(email)
+//                .orElseThrow(() -> new UsernameNotFoundException("Користувача не знайдено"));
         Users user = usersRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Користувача не знайдено"));
+
+        if (!user.isAvailable()) {
+            throw new UsernameNotFoundException("Акаунт деактивовано або архівовано");
+        }
 
 //        return User.builder()
 //                .username(user.getEmail())

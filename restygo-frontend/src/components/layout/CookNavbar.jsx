@@ -37,7 +37,7 @@ const CookNavbar = () => {
     return (
         <nav className="cook-navbar">
             <div className="logo" onClick={() => navigate('/cook')}>RestyGO</div>
-            <div>Панель кухаря</div>
+            <h3>Панель кухаря</h3>
             <div className="cook-navbar-right">
                 {cookName && <span className="cook-auth-info">Авторизовано як: <strong>{cookName}</strong></span>}
                 <button onClick={handleLogout}>Завершити роботу</button>

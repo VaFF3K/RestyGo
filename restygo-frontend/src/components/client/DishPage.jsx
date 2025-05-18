@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useOrder } from '../components/client/OrderContext';
-import '../styles/DishPage.css';
+import { useOrder } from './OrderContext';
+import useAuth from "../../utils/useAuth";
 
 function DishPage() {
     const { id } = useParams();
@@ -10,6 +10,7 @@ function DishPage() {
     const [rating, setRating] = useState(5);
     const [comment, setComment] = useState('');
     const { addItem, removeItem, items } = useOrder();
+    const user = useAuth();
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/public/menu/${id}`)
@@ -51,6 +52,7 @@ function DishPage() {
     if (!dish) return <p className="loading">Завантаження...</p>;
 
     return (
+        <div className="home-content">
         <div className="dish-page">
             <div className="dish-header">
                 <h2>{dish.name}</h2>
@@ -58,23 +60,21 @@ function DishPage() {
                     <img
                         src={`http://localhost:8080/api/dishes/assets/${dish.imageName}`}
                         alt={dish.name}
-                        className="dish-image"
-                    />
-                )}
-                <p className="dish-description">{dish.description}</p>
-                <p className="dish-price"><strong>Ціна:</strong> {dish.price} грн</p>
+                        className="dish-image" /> )}
+                <p className="dish-price"><strong>Ціна:</strong> {dish.price} ₴</p>
                 <button className="dish-action-button" onClick={handleToggle}>
                     {isInOrder(dish.id) ? '❌ Вилучити вибір' : '🛒 Замовити'}
                 </button>
+                <p className="dish-text"><strong>Категорія:</strong> {dish.category}</p>
+                <p className="dish-text"><strong>Опис:</strong> {dish.description}</p>
             </div>
-
-            <hr />
 
             <div className="review-section">
                 <h3>Залишити відгук</h3>
+                {user ? (
                 <form onSubmit={handleReviewSubmit} className="review-form">
                     <label>
-                        Оцінка:
+                        <strong> Оцінка:</strong>
                         <select value={rating} onChange={e => setRating(parseInt(e.target.value))}>
                             {[5, 4, 3, 2, 1].map(num => (
                                 <option key={num} value={num}>{num}</option>
@@ -88,9 +88,13 @@ function DishPage() {
                         required
                     />
                     <button type="submit">Відправити</button>
-                </form>
+                </form> ) : (
+                    <p className="order-status-note">
+                        🔐 Увійдіть, перш ніж додавати відгук.
+                    </p>
+                )}
 
-                <h3>Відгуки</h3>
+                <h3>Відгуки до страви</h3>
                 {reviews.length === 0 ? (
                     <p className="no-reviews">Ще немає відгуків</p>
                 ) : (
@@ -106,7 +110,7 @@ function DishPage() {
                     </ul>
                 )}
             </div>
-        </div>
+        </div></div>
     );
 }
 

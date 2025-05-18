@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import '../../styles/AdminPanel.css';
-
+import {statusLabels} from "../../utils/statusMap";
 
 function OrderManager() {
     const [orders, setOrders] = useState([]);
     const [filter, setFilter] = useState('all');
+
 
     useEffect(() => {
         fetch('http://localhost:8080/api/orders', { credentials: 'include' })
@@ -18,6 +18,7 @@ function OrderManager() {
         if (filter === 'completed') return order.status === 'READY' || order.status === 'CANCELLED';
         return true;
     });
+
 
     return (
         <div className="admin-container">
@@ -37,22 +38,32 @@ function OrderManager() {
                 <tr>
                     <th>ID</th>
                     <th>Статус</th>
-                    <th>Позиції</th>
+                    <th>Позиції з меню</th>
                     <th>Коментар</th>
                     <th>Дата</th>
                     <th>Сума</th>
                 </tr>
                 </thead>
                 <tbody>
-                {filteredOrders.map(order => (
+                {filteredOrders.map(order => {
+                    const statusInfo = statusLabels[order.status];
+                    return (
                     <tr key={order.id}>
                         <td>#{order.id}</td>
-                        <td>{order.status}</td>
+                        <td><span style={{
+                            backgroundColor: statusInfo.color,
+                            color: '#000000',
+                            padding: '5px 10px',
+                            borderRadius: '6px',
+                            fontWeight: 'bold',
+                            display: 'inline-block'
+                        }}>{statusInfo.label} </span>
+                           </td>
                         <td>
                             <ul>
                                 {order.items.map((item, index) => (
                                     <li key={index}>
-                                        {item.name} ({item.quantity} шт) — {(item.price * item.quantity).toFixed(2)} грн
+                                        {item.name} ({item.quantity} шт) — {(item.price * item.quantity).toFixed(2)} ₴
                                     </li>
                                 ))}
                             </ul>
@@ -69,9 +80,10 @@ function OrderManager() {
                                 })
                                 : 'Невідомо'}
                         </td>
-                        <td>{order.totalPrice.toFixed(2)} грн</td>
+                        <td>{order.totalPrice.toFixed(2)} ₴</td>
                     </tr>
-                ))}
+                    );
+                })}
                 </tbody>
             </table>
         </div>

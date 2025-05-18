@@ -1,23 +1,3 @@
-// import React from 'react';
-// import { Outlet, useLocation } from 'react-router-dom';
-// import ClientNavbar from './ClientNavbar';
-//
-// function Layout() {
-//     const location = useLocation();
-//     const hideNavbar = location.pathname === '/auth';
-//
-//     return (
-//         <>
-//             {!hideNavbar && <ClientNavbar />}
-//             <main style={{ paddingTop: hideNavbar ? 0 : '15px' }}>
-//                 <Outlet />
-//             </main>
-//         </>
-//     );
-// }
-//
-// export default Layout;
-
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import ClientNavbar from '../layout/ClientNavbar';

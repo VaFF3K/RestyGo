@@ -1,11 +1,14 @@
 package com.example.restygo.controller;
 
+import com.example.restygo.dto.PopularDishDTO;
 import com.example.restygo.model.Dish;
 import com.example.restygo.repository.DishRepository;
 
+import com.example.restygo.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/admin/dishes")
@@ -27,11 +31,19 @@ public class AdminDishController {
 
     @Autowired
     private DishRepository dishRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
     // 📄 Всі страви
-    @GetMapping()
+    @GetMapping
     public List<Dish> getAllDishes() {
-        return dishRepository.findAll();
+        return dishRepository.findByArchivedFalse();
+    }
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/stats")
+    public ResponseEntity<List<PopularDishDTO>> getDishStatistics() {
+        List<PopularDishDTO> allDishStats = orderRepository.findTopDishes(Pageable.unpaged());
+        return ResponseEntity.ok(allDishStats);
     }
 
     // ➕ Додати страву
@@ -64,25 +76,28 @@ public class AdminDishController {
         }
     }
 
-//    @GetMapping("/assets/{filename}")
-//    public ResponseEntity<Resource> getImage(@PathVariable String filename) throws IOException {
-//        Path filePath = Paths.get("assets", filename);
-//        Resource file = new UrlResource(filePath.toUri());
-//
-//        if (file.exists() || file.isReadable()) {
-//            return ResponseEntity.ok().body(file);
-//        } else {
+    // 🗑 Видалення страви з БД
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<?> deleteDish(@PathVariable Long id) {
+//        if (!dishRepository.existsById(id)) {
 //            return ResponseEntity.notFound().build();
 //        }
+//        dishRepository.deleteById(id);
+//        return ResponseEntity.ok().build();
 //    }
 
-    // 🗑 Видалити страву
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteDish(@PathVariable Long id) {
-        if (!dishRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<?> archiveDish(@PathVariable Long id) {
+        Optional<Dish> optional = dishRepository.findById(id);
+        if (optional.isEmpty()) {
+            return ResponseEntity.status(404).body("Страву не знайдено");
         }
-        dishRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+
+        Dish dish = optional.get();
+        dish.setArchived(true);
+        dishRepository.save(dish);
+
+        return ResponseEntity.ok("Страву архівовано");
     }
+
 }

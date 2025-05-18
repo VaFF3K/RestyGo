@@ -1,109 +1,6 @@
-// import React, { useEffect, useState } from 'react';
-// import '../styles/CookPanel.css';
-//
-// function CookOrdersPage() {
-//     const [orders, setOrders] = useState([]);
-//     const [loading, setLoading] = useState(true);
-//     const [filter, setFilter] = useState('active'); // 'active' | 'completed' | 'all'
-//
-//     useEffect(() => {
-//         fetchOrders();
-//     }, []);
-//
-//     const fetchOrders = () => {
-//         setLoading(true);
-//         fetch('http://localhost:8080/api/cook/orders', {
-//             credentials: 'include'
-//         })
-//             .then(res => res.json())
-//             .then(data => {
-//                 setOrders(data);
-//                 setLoading(false);
-//             })
-//             .catch(err => {
-//                 console.error("Помилка при завантаженні замовлень:", err);
-//                 setLoading(false);
-//             });
-//     };
-//
-//     const handleStatusChange = (orderId, newStatus) => {
-//         fetch(`http://localhost:8080/api/cook/orders/${orderId}/status?newStatus=${newStatus}`, {
-//             method: 'POST',
-//             credentials: 'include'
-//         })
-//             .then(res => {
-//                 if (res.ok) fetchOrders();
-//                 else alert("Не вдалося змінити статус");
-//             })
-//             .catch(err => console.error("Помилка зміни статусу:", err));
-//     };
-//
-//     const filteredOrders = orders.filter(order => {
-//         if (filter === 'active') return order.status === 'NEW' || order.status === 'IN_PROGRESS';
-//         if (filter === 'completed') return order.status === 'READY';
-//         return true;
-//     });
-//
-//     return (
-//         <div className="cook-container">
-//             <h2>Замовлення</h2>
-//
-//             <div className="cook-filter-tabs">
-//                 <button className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>Всі</button>
-//                 <button className={filter === 'active' ? 'active' : ''} onClick={() => setFilter('active')}>Активні</button>
-//                 <button className={filter === 'completed' ? 'active' : ''} onClick={() => setFilter('completed')}>Завершені</button>
-//             </div>
-//
-//             {loading ? (
-//                 <p>Завантаження...</p>
-//             ) : filteredOrders.length === 0 ? (
-//                 <p>Немає замовлень</p>
-//             ) : (
-//                 <div className="cook-orders-list">
-//                     {filteredOrders.map(order => (
-//                         <div key={order.id} className="cook-order-card">
-//                             <h3>Замовлення №{order.id}</h3>
-//                             <p><strong>Статус:</strong> {order.status}</p>
-//
-//                             <ul>
-//                                 {order.items && order.items.map((item, idx) => (
-//                                     <li key={idx}>{item.dishName} ({item.quantity} шт)</li>
-//                                 ))}
-//                             </ul>
-//
-//                             {order.comment && <p><strong>Коментар:</strong> {order.comment}</p>}
-//
-//                             <p><strong>Дата:</strong> {order.createdAt
-//                                 ? new Date(order.createdAt).toLocaleString('uk-UA')
-//                                 : 'Невідомо'}
-//                             </p>
-//
-//                             {(order.status === 'NEW' || order.status === 'IN_PROGRESS') && (
-//                                 <div className="cook-card-actions">
-//                                     {order.status === 'NEW' && (
-//                                         <button className="cook-btn" onClick={() => handleStatusChange(order.id, 'IN_PROGRESS')}>
-//                                             Почати готувати
-//                                         </button>
-//                                     )}
-//                                     {order.status === 'IN_PROGRESS' && (
-//                                         <button className="cook-btn" onClick={() => handleStatusChange(order.id, 'READY')}>
-//                                             Готово
-//                                         </button>
-//                                     )}
-//                                 </div>
-//                             )}
-//                         </div>
-//                     ))}
-//                 </div>
-//             )}
-//         </div>
-//     );
-// }
-//
-// export default CookOrdersPage;
-
 import React, { useEffect, useState } from 'react';
 import '../styles/CookPanel.css';
+import {statusLabels} from "../utils/statusMap";
 
 function CookOrdersPage() {
     const [orders, setOrders] = useState([]);
@@ -227,10 +124,18 @@ function CookOrdersPage() {
                 <p>Замовлень поки немає.</p>
             ) : (
                 <div className="cook-orders-list">
-                    {sortedOrders.map(order => (
+                    {sortedOrders.map(order => {
+                        const statusInfo = statusLabels[order.status] || { label: order.status, color: "#e2e3e5" };
+                        return (
                         <div key={order.id} className="cook-order-card">
                             <h3>Замовлення №{order.id}</h3>
-                            <p><strong>Статус:</strong> {order.status}</p>
+                            <p><strong>Статус:</strong> <span style={{
+                                backgroundColor: statusInfo.color,
+                                padding: '5px 10px',
+                                borderRadius: '6px',
+                                fontWeight: 'bold',
+                                display: 'inline-block'
+                            }}>{statusInfo.label} </span></p>
 
                             <ul>
                                 {order.items && order.items.map((item, idx) => (
@@ -270,8 +175,8 @@ function CookOrdersPage() {
                                     Готово
                                 </button>
                             )}
-                        </div>
-                    ))}
+                        </div>);
+                    })}
                 </div>
             )}
         </div>

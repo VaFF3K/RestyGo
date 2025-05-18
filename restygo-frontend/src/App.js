@@ -7,17 +7,18 @@ import ProtectedRoute from './components/layout/ProtectedRoute';
 import DishForm from './components/admin/DishForm';
 import CookForm from "./components/admin/CookForm";
 import { OrderProvider } from "./components/client/OrderContext";
-import OrderPage from "./pages/OrderPage";
-import ProfilePage from "./pages/ProfilePage";
-import DishPage from "./pages/DishPage";
+import OrderPage from "./components/client/OrderPage";
+import ProfilePage from "./components/client/ProfilePage";
+import DishPage from "./components/client/DishPage";
 import CookOrdersPage from "./pages/CookOrdersPage";
 import Layout from './components/layout/Layout';
-import './App.css';
 import DishManager from "./components/admin/DishManager";
 import CookManager from "./components/admin/CookManager";
 import OrderManager from "./components/admin/OrderManager";
 import ReviewManager from "./components/admin/ReviewManager";
 
+import './App.css';
+import PublicOnlyRoute from "./components/layout/PublicOnlyRoute"; //глобальні фільтри по сайту
 
 function App() {
     return (
@@ -30,14 +31,16 @@ function App() {
 
                     {/* Усі інші сторінки — під Layout (з ClientNavbar) */}
                     <Route element={<Layout />}>
+                        <Route element={<PublicOnlyRoute />}>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/order" element={<OrderPage />} />
                         <Route path="/dish/:id" element={<DishPage />} />
-
+                        </Route>
                         {/* Клієнт*/}
                         <Route element={<ProtectedRoute allowedRoles={['CLIENT']} />}>
                         <Route path="/profile" element={<ProfilePage />} />
                         </Route>
+
                         {/* Панель кухаря*/}
                         <Route element={<ProtectedRoute allowedRoles={['COOK']} />}>
                         <Route path="/cook" element={<CookOrdersPage />} />

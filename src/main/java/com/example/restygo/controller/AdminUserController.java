@@ -25,7 +25,7 @@ public class AdminUserController {
     @GetMapping("/cooks")
     @PreAuthorize("hasRole('ADMIN')")
     public List<Users> getAllCooks() {
-        return usersRepository.findByRole(Role.COOK);
+        return usersRepository.findByRoleAndAvailableTrue(Role.COOK);
     }
 
     @PostMapping("/cooks")
@@ -44,14 +44,28 @@ public class AdminUserController {
         usersRepository.save(user);
         return ResponseEntity.ok("Кухар успішно зареєстрований");
     }
-    @DeleteMapping("/cooks/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deleteCook(@PathVariable Long id) {
-        if (!usersRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
+//    Видалення кухаря з БД
+//    @DeleteMapping("/cooks/{id}")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<?> deleteCook(@PathVariable Long id) {
+//        if (!usersRepository.existsById(id)) {
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        usersRepository.deleteById(id);
+//        return ResponseEntity.ok("Кухаря видалено");
+//    }
+        @DeleteMapping("/cooks/{id}")
+        @PreAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<?> deleteCook(@PathVariable Long id) {
+            return usersRepository.findById(id)
+            .filter(user -> user.getRole() == Role.COOK)
+            .map(cook -> {
+                cook.setAvailable(false);
+                usersRepository.save(cook);
+                return ResponseEntity.ok("Кухаря архівовано");
+            })
+            .orElse(ResponseEntity.status(404).body("Кухаря не знайдено"));
         }
 
-        usersRepository.deleteById(id);
-        return ResponseEntity.ok("Кухаря видалено");
-    }
 }

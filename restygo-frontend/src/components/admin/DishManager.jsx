@@ -11,23 +11,14 @@ function DishManager() {
         })
             .then(res => res.json())
             .then(data => {
-                // перевірка: чи точно прийшов масив
-                if (Array.isArray(data)) {
-                    setDishes(data);
-                } else {
-                    console.warn('Сервер повернув не масив:', data);
-                    setDishes([]); // або приведи як треба
-                }
+                if (Array.isArray(data)) setDishes(data);
+                else setDishes([]);
             })
-            .catch(err => {
-                console.error('Помилка при завантаженні страв:', err);
-                setDishes([]);
-            });
+            .catch(() => setDishes([]));
     }, []);
 
-    //new
     const handleDelete = async (id) => {
-        const confirmed = window.confirm("Видалити страву?");
+        const confirmed = window.confirm("Справді видалити цю страву?");
         if (!confirmed) return;
 
         const response = await fetch(`http://localhost:8080/api/admin/dishes/${id}`, {
@@ -61,10 +52,10 @@ function DishManager() {
                 </tr>
                 </thead>
                 <tbody>
-                {Array.isArray(dishes) && dishes.map((dish, index) => (
+                {dishes.map((dish, index) => (
                     <tr key={index}>
                         <td>{dish.name}</td>
-                        <td>{dish.price} грн</td>
+                        <td>{dish.price} ₴</td>
                         <td>{dish.category}</td>
                         <td>{dish.description}</td>
                         <td>
@@ -85,7 +76,6 @@ function DishManager() {
                 ))}
                 </tbody>
             </table>
-
         </div>
     );
 }
