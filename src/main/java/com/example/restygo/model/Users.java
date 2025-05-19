@@ -26,9 +26,6 @@ public class Users {
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean available = true;
 
-
-
-
     @OneToMany(mappedBy = "user")
     @JsonIgnore  //experimental
     private List<Order> orders;
@@ -38,7 +35,6 @@ public class Users {
     private List<Review> reviews;
 
     public Users() {
-
     }
 
     public Users(String fullName, String email, String password, Role role) {

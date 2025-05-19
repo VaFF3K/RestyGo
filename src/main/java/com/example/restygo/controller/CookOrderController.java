@@ -88,14 +88,11 @@ public class CookOrderController {
             return ResponseEntity.badRequest().body("За це замовлення вже взявся інший кухар: " +
                     order.getCook().getFullName());
         }
-
-
         // ✅ Присвоїти замовлення кухарю якщо тільки починає готувати
         if (targetStatus == OrderStatus.IN_PROGRESS) {
             order.setCook(currentCook);
 
         }
-
         OrderStatusStrategy strategy = statusStrategyFactory.getStrategy(order.getStatus(), targetStatus);
         if (strategy == null) {
             return ResponseEntity.badRequest().body("Перехід статусу не дозволений");
