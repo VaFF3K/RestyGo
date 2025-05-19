@@ -11,6 +11,5 @@ export default function useAuth() {
             .then(data => setUser(data))
             .catch(() => setUser(null));
     }, []);
-
     return user;
 }

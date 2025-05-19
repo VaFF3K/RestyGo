@@ -92,5 +92,4 @@ function MenuList() {
         </div>
     );
 }
-
 export default MenuList;
