@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useOrder } from './OrderContext';
 import useAuth from "../../utils/useAuth";
+import calculateAverageRating from '../../utils/calculateAverageRating';
+
 
 function DishPage() {
     const { id } = useParams();
@@ -11,6 +13,9 @@ function DishPage() {
     const [comment, setComment] = useState('');
     const { addItem, removeItem, items } = useOrder();
     const user = useAuth();
+
+    const { average, count } = calculateAverageRating(reviews);
+
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/public/menu/${id}`)
@@ -56,17 +61,28 @@ function DishPage() {
         <div className="dish-page">
             <div className="dish-header">
                 <h2>{dish.name}</h2>
+
                 {dish.imageName && (
                     <img
                         src={`http://localhost:8080/api/dishes/assets/${dish.imageName}`}
                         alt={dish.name}
                         className="dish-image" /> )}
+                {count > 0 ? (
+                    <div className="dish-rating">
+                        <div className="stars">{'⭐'.repeat(average)}</div>
+                        <div className="count">відгуків: {count}</div>
+                    </div>
+                ) : (
+                    <p className="dish-rating">Ще немає відгуків</p>
+                )}
                 <p className="dish-price"><strong>Ціна:</strong> {dish.price} ₴</p>
                 <button className="dish-action-button" onClick={handleToggle}>
                     {isInOrder(dish.id) ? '❌ Вилучити вибір' : '🛒 Замовити'}
                 </button>
                 <p className="dish-text"><strong>Категорія:</strong> {dish.category}</p>
                 <p className="dish-text"><strong>Опис:</strong> {dish.description}</p>
+                
+
             </div>
 
             <div className="review-section">

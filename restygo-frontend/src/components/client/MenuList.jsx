@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOrder } from './OrderContext';
+import calculateAverageRating from '../../utils/calculateAverageRating';
+
 
 function MenuList() {
     const [dishes, setDishes] = useState([]);
@@ -8,6 +10,7 @@ function MenuList() {
     const [search, setSearch] = useState('');
     const [category, setCategory] = useState('all');
     const [sort, setSort] = useState('default');
+    const [ratingsMap, setRatingsMap] = useState({});
 
 
     const { addItem, removeItem, items } = useOrder();
@@ -19,6 +22,22 @@ function MenuList() {
             .then(setDishes)
             .catch(err => console.error("Помилка при завантаженні меню:", err));
     }, []);
+
+    useEffect(() => {
+        const fetchAllReviews = async () => {
+            const ratings = {};
+            for (const dish of dishes) {
+                const res = await fetch(`http://localhost:8080/api/reviews/dish/${dish.id}`);
+                const data = await res.json();
+                ratings[dish.id] = data;
+            }
+            setRatingsMap(ratings);
+        };
+
+        if (dishes.length > 0) {
+            fetchAllReviews();
+        }
+    }, [dishes]);
 
     const isInOrder = (dishId) => items.some(item => item.dish.id === dishId);
 
@@ -86,6 +105,18 @@ function MenuList() {
                             }}>
                             {isInOrder(dish.id) ? '❌ Прибрати' : '🛒Замовити'}
                         </button>
+
+                        {ratingsMap[dish.id] && (() => {
+                            const { average, count } = calculateAverageRating(ratingsMap[dish.id]);
+                            return count > 0 ? (
+                                <div className="dish-rating">
+                                    <div className="stars">{'⭐'.repeat(average)}</div>
+                                    <div className="count">відгуків: {count}</div>
+                                </div>
+                            ) : (
+                                <p className="dish-rating">Ще немає відгуків</p>
+                            );
+                        })()}
                     </div>
                 ))}
             </div>

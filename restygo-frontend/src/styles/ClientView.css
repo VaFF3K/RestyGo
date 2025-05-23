@@ -273,6 +273,21 @@
     background: var(--hover-beige);
 }
 
+.dish-rating {
+    margin-top: 6px;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.dish-rating .stars {
+    font-size: 1.4em;
+}
+
+.dish-rating .count {
+    font-size: 0.85em;
+    color: #555;
+}
+
 /* -------------------- Dish Page -------------------- */
 .dish-page {
     max-width: 1000px;
@@ -648,6 +663,8 @@
     font-size: 0.85em;
     color: #666;
 }
+
+
 
 .loading,
 .no-reviews {
