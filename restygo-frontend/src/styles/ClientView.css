@@ -88,6 +88,7 @@
     color: white;
     border: none;
     font-size: 0.95em;
+    font-weight: bold;
     padding: 8px 12px;
     border-radius: 4px;
     cursor: pointer;
@@ -102,6 +103,18 @@
     background-color: var(--dark-brown);
 
 }
+
+.footer {
+    margin-top: auto;
+    padding: 12px 20px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #f4f4f4;
+    color: #555;
+    border-top: 1px solid #ddd;
+}
+
 
 /* -------------------- Home Page -------------------- */
 .home-content {
@@ -139,6 +152,7 @@
 .carousel-title {
     text-align: center;
     font-size: 1.8em;
+    margin-top: 0.1rem;
     margin-bottom: 1rem;
     color: var(--accent-brown);
 }
@@ -197,7 +211,7 @@
 }
 
 .filters .menu.expanded {
-    width: 500px;
+    width: 300px;
 }
 
 .menu-grid {
@@ -663,8 +677,6 @@
     font-size: 0.85em;
     color: #666;
 }
-
-
 
 .loading,
 .no-reviews {

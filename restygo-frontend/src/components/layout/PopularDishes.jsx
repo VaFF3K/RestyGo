@@ -14,7 +14,7 @@ function PopularDishes() {
 
     return (
         <div className="popular-carousel-wrapper">
-            <h3 className="carousel-title">Найпопулярніші страви</h3>
+            <h3 className="carousel-title">Вибір наших клієнтів</h3>
             <Carousel
                 key={dishes.length}
                 showThumbs={false}

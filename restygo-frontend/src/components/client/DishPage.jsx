@@ -77,7 +77,7 @@ function DishPage() {
                 )}
                 <p className="dish-price"><strong>Ціна:</strong> {dish.price} ₴</p>
                 <button className="dish-action-button" onClick={handleToggle}>
-                    {isInOrder(dish.id) ? '❌ Вилучити вибір' : '🛒 Замовити'}
+                    {isInOrder(dish.id) ? '❌ Прибрати' : '🛒 Замовити'}
                 </button>
                 <p className="dish-text"><strong>Категорія:</strong> {dish.category}</p>
                 <p className="dish-text"><strong>Опис:</strong> {dish.description}</p>
@@ -106,7 +106,7 @@ function DishPage() {
                     <button type="submit">Відправити</button>
                 </form> ) : (
                     <p className="order-status-note">
-                        🔐 Увійдіть, перш ніж додавати відгук.
+                        🔐 Додавання відгуків доступне лише авторизованим користувачам.
                     </p>
                 )}
 

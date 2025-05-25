@@ -28,6 +28,9 @@ function Layout() {
             <main style={{ paddingTop: hideNavbar ? 0 : '15px' }}>
                 <Outlet />
             </main>
+            <footer className="footer">
+                <p>© {new Date().getFullYear()} RestyGO</p>
+            </footer>
         </>
     );
 }

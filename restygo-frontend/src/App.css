@@ -21,3 +21,39 @@ h2 {
   font-size: 1.8em;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+
+@media (max-width: 768px) {
+  .home-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  .nav-tabs {
+    position: static;
+    transform: none;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .auth-block {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .auth-block button {
+    flex: 1 1 100px;
+  }
+}

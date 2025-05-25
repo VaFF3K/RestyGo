@@ -59,11 +59,11 @@ function ClientNavbar() {
                     <>
                         <span>Авторизовано як: {fullName}</span>
                         <button className={`auth-block-button ${isCurrentPath('/profile') ? 'active' : ''}`}
-                            onClick={() => navigate('/profile')}>Профіль</button>
+                            onClick={() => navigate('/profile')}>👤Профіль</button>
                         <button onClick={handleLogout}>Вийти</button>
                     </>
                 ) : (
-                    <button onClick={() => navigate('/auth')}>Авторизація</button>
+                    <button onClick={() => navigate('/auth')}>🔐Увійти</button>
                 )}
         </div>
         </header>
