@@ -57,7 +57,7 @@ function ClientNavbar() {
             <div className="auth-block">
                 {fullName ? (
                     <>
-                        <span>Авторизовано як: {fullName}</span>
+                        <span>{fullName}</span>
                         <button className={`auth-block-button ${isCurrentPath('/profile') ? 'active' : ''}`}
                             onClick={() => navigate('/profile')}>👤Профіль</button>
                         <button onClick={handleLogout}>Вийти</button>
