@@ -7,7 +7,7 @@ import {
     Tooltip,
     CartesianGrid,
     Legend,
-    Cell
+    Cell, ResponsiveContainer
 } from "recharts";
 import "../../styles/AdminPanel.css";
 
@@ -40,7 +40,7 @@ function DishStats() {
         }));
 
     const chartHeight = Math.max(400, chartData.length * 60); // динамічна висота
-
+    const isMobile = window.innerWidth < 768;
     return (
         <div className="admin-container">
             <h3 className="chart-title">Статистика замовлень по стравах</h3>
@@ -48,10 +48,10 @@ function DishStats() {
             {chartData.length === 0 ? (
                 <p>Немає даних для відображення.</p>
             ) : (
-                <div style={{ width: '100%', height: chartHeight }}>
+                <ResponsiveContainer width="97%" height={chartHeight}>
                     <BarChart
                         layout="vertical"
-                        width={1350}
+                        width={1300}
                         height={chartHeight}
                         data={chartData}
                         margin={{ top: 20, right: 30, left: 50, bottom: 20 }}
@@ -64,11 +64,13 @@ function DishStats() {
                         {/*    tickCount={chartData.length}*/}
                         {/*    interval={0}*/}
                         {/*/>*/}
+
                         <YAxis
                             type="category"
                             dataKey="name"
-                            width={220} // збільшена ширина назв
+                            width={isMobile ? 70 : 100}
                         />
+
                         <Tooltip />
                         <Legend />
                         <Bar dataKey="timesOrdered" name="К-сть замовлень">
@@ -77,7 +79,7 @@ function DishStats() {
                             ))}
                         </Bar>
                     </BarChart>
-                </div>
+                </ResponsiveContainer>
             )}
         </div>
     );
