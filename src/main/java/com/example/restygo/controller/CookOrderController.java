@@ -82,13 +82,13 @@ public class CookOrderController {
 
         OrderStatus targetStatus = OrderStatus.valueOf(newStatus);
 
-        // 🔒 Захист від чужих замовлень
+        // Захист від чужих замовлень
         if (order.getStatus() == OrderStatus.IN_PROGRESS && order.getCook() != null
                 && !order.getCook().getId().equals(currentCook.getId())) {
             return ResponseEntity.badRequest().body("За це замовлення вже взявся інший кухар: " +
                     order.getCook().getFullName());
         }
-        // ✅ Присвоїти замовлення кухарю якщо тільки починає готувати
+        // Присвоїти замовлення кухарю якщо тільки починає готувати
         if (targetStatus == OrderStatus.IN_PROGRESS) {
             order.setCook(currentCook);
 

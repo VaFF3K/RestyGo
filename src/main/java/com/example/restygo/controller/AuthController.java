@@ -71,7 +71,7 @@ public class AuthController {
         usersRepository.save(user);
 
 
-        // 🔐 одразу авторизуємо нового користувача
+        //  автоматично авторизуємо нового користувача
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );

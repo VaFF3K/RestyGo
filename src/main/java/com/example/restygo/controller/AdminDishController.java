@@ -34,7 +34,7 @@ public class AdminDishController {
     @Autowired
     private OrderRepository orderRepository;
 
-    // 📄 Всі страви
+    // Всі страви
     @GetMapping
     public List<Dish> getAllDishes() {
         return dishRepository.findByArchivedFalse();
@@ -46,7 +46,7 @@ public class AdminDishController {
         return ResponseEntity.ok(allDishStats);
     }
 
-    // ➕ Додати страву
+    // Додати страву
     @PostMapping
     public ResponseEntity<?> addDish(@RequestBody Dish dish, Authentication authentication) {
         Dish savedDish = dishRepository.save(dish);
@@ -76,7 +76,7 @@ public class AdminDishController {
         }
     }
 
-    // 🗑 Видалення страви з БД
+    // Видалення страви з БД
 //    @DeleteMapping("/{id}")
 //    public ResponseEntity<?> deleteDish(@PathVariable Long id) {
 //        if (!dishRepository.existsById(id)) {

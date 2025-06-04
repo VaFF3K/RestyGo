@@ -213,6 +213,7 @@
 .admin-form textarea {
     resize: vertical;
     min-height: 100px;
+    font-size: 0.9rem;
 }
 
 .admin-form input:focus,

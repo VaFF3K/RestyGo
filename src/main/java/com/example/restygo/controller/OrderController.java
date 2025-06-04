@@ -108,6 +108,53 @@ public class OrderController {
 
         return ResponseEntity.ok(dtos);
     }
+@PutMapping("/{orderId}/issue")
+public ResponseEntity<String> issueOrder(@PathVariable Long orderId) {
+    Optional<Order> optionalOrder = orderRepository.findById(orderId);
+    if (optionalOrder.isEmpty()) {
+        return ResponseEntity.notFound().build();
+    }
+
+    Order order = optionalOrder.get();
+
+    if (order.getStatus() != OrderStatus.NEW) {
+        return ResponseEntity.badRequest().body("Замовлення не є новим і більше не може бути скасованим");
+    }
+
+    OrderStatusStrategy strategy = orderStatusStrategyFactory.getStrategy(order.getStatus(), OrderStatus.CANCELLED);
+    if (strategy == null) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("No strategy defined for this status transition.");
+    }
+
+    strategy.updateStatus(order);
+    orderRepository.save(order);
+
+    return ResponseEntity.ok("Замовлення №" + orderId + " було скасовано");
+}
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping
+    public ResponseEntity<?> getAllOrders() {
+        List<Order> orders = orderRepository.findAll();
+
+        List<OrderResponseDTO> dtos = orders.stream().map(order -> new OrderResponseDTO(
+                order.getId(),
+                order.getStatus().name(),
+                order.getTotalPrice(),
+                order.getComment(),
+                order.getCreatedAt(),
+                order.getItems().stream().map(item ->
+                        new OrderResponseDTO.ItemDTO(
+                                item.getDish().getName(),
+                                item.getQuantity(),
+                                item.getDish().getPrice()
+                        )
+                ).toList()
+        )).toList();
+
+        return ResponseEntity.ok(dtos);
+    }
+}
 //    @DeleteMapping("/{orderId}")
 //    public ResponseEntity<?> cancelOrder(@PathVariable Long orderId, Authentication authentication) {
 //        if (authentication == null || !authentication.isAuthenticated()) {
@@ -133,55 +180,3 @@ public class OrderController {
 //        orderRepository.delete(order);
 //        return ResponseEntity.ok("Замовлення №" + orderId + " було скасовано");
 //    }
-@PutMapping("/{orderId}/issue")
-public ResponseEntity<String> issueOrder(@PathVariable Long orderId) {
-    Optional<Order> optionalOrder = orderRepository.findById(orderId);
-    if (optionalOrder.isEmpty()) {
-        return ResponseEntity.notFound().build();
-    }
-
-    Order order = optionalOrder.get();
-
-    if (order.getStatus() != OrderStatus.NEW) {
-        return ResponseEntity.badRequest().body("Замовлення не є новим і більше не може бути скасованим");
-    }
-
-    OrderStatusStrategy strategy = orderStatusStrategyFactory.getStrategy(order.getStatus(), OrderStatus.CANCELLED);
-    if (strategy == null) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("No strategy defined for this status transition.");
-    }
-
-    strategy.updateStatus(order);
-    orderRepository.save(order);
-
-    return ResponseEntity.ok("Замовлення №" + orderId + " було скасовано");
-}
-
-
-
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping
-    public ResponseEntity<?> getAllOrders() {
-        List<Order> orders = orderRepository.findAll();
-
-        List<OrderResponseDTO> dtos = orders.stream().map(order -> new OrderResponseDTO(
-                order.getId(),
-                order.getStatus().name(),
-                order.getTotalPrice(),
-                order.getComment(),
-                order.getCreatedAt(),
-                order.getItems().stream().map(item ->
-                        new OrderResponseDTO.ItemDTO(
-                                item.getDish().getName(),
-                                item.getQuantity(),
-                                item.getDish().getPrice()
-                        )
-                ).toList()
-        )).toList();
-
-        return ResponseEntity.ok(dtos);
-    }
-
-
-}
