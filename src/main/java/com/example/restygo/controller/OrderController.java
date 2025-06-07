@@ -54,7 +54,7 @@ public class OrderController {
         order.setCreatedAt(LocalDateTime.now());
         order.setCustomerName(user.getFullName());
         order.setCustomerMail(user.getEmail());
-        order.setComment(request.getComment()); // ✅ зберігаємо загальний коментар
+        order.setComment(request.getComment()); // зберігаємо загальний коментар
 
         double totalPrice = 0;
 

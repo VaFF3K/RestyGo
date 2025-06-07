@@ -49,7 +49,7 @@ class AuthControllerTest {
         when(usersRepository.findByEmail("test@example.com")).thenReturn(Optional.empty());
         when(passwordEncoder.encode("password")).thenReturn("encodedPassword");
         when(authenticationManager.authenticate(any())).thenReturn(authentication);
-        when(httpServletRequest.getSession(true)).thenReturn(mockSession);  // 🧩 ВАЖЛИВЕ ДОПОВНЕННЯ
+        when(httpServletRequest.getSession(true)).thenReturn(mockSession);
 
         ResponseEntity<?> response = authController.register(request, httpServletRequest);
 
